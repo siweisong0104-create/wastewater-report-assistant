@@ -71,9 +71,23 @@ const presets: Record<string, string[]> = {
   ]
 };
 
+// 定义表单类型
+type FormType = {
+  name: string;
+  date: string;
+  tasks: string;
+  achievements: string;
+  issues: string;
+  nextWeek: string;
+  dataMetrics: string;
+  collaboration: string;
+  learning: string;
+  tone: string;
+};
+
 export default function ReportForm() {
   const { data: session } = useSession();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormType>({
     name: "",
     date: "",
     tasks: "",
@@ -93,7 +107,7 @@ export default function ReportForm() {
   const [copied, setCopied] = useState(false);
   const [openPreset, setOpenPreset] = useState<string | null>(null);
 
-  const applyPreset = (field: keyof typeof presets, value: string) => {
+  const applyPreset = (field: keyof FormType, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
     setOpenPreset(null);
   };
@@ -202,7 +216,7 @@ export default function ReportForm() {
     required = false
   }: {
     label: string;
-    field: keyof typeof presets;
+    field: keyof FormType;
     placeholder: string;
     rows?: number;
     required?: boolean;

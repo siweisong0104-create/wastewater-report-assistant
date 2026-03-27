@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "NEXTAUTH_URL": "@nextauth_url",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "GITHUB_ID": "@github_id",
+    "GITHUB_SECRET": "@github_secret",
+    "ZHIPU_API_KEY": "@zhipu_api_key"
+  }
+}

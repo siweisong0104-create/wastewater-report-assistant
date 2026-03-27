@@ -208,6 +208,16 @@ export default function ReportForm() {
     display: "block"
   };
 
+  // 辅助函数：获取字段值
+  const getFieldValue = (fieldName: keyof FormType): string => {
+    return form[fieldName];
+  };
+
+  // 辅助函数：设置字段值
+  const setFieldValue = (fieldName: keyof FormType, value: string) => {
+    setForm(prev => ({ ...prev, [fieldName]: value }));
+  };
+
   const FieldGroup = ({
     label,
     field,
@@ -220,113 +230,121 @@ export default function ReportForm() {
     placeholder: string;
     rows?: number;
     required?: boolean;
-  }) => (
-    <div style={{ position: "relative" }}>
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "space-between", 
-        alignItems: "center",
-        marginBottom: "6px"
-      }}>
-        <label style={labelStyle}>
-          {label}
-          {required && <span style={{ color: "#ef4444" }}>*</span>}
-        </label>
-        <div style={{ position: "relative" }}>
-          <button
-            type="button"
-            onClick={() => setOpenPreset(openPreset === field ? null : field)}
-            style={{
-              fontSize: "11px",
-              color: "#6b7280",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              padding: "2px 6px",
-              borderRadius: "4px"
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#06b6d4")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#6b7280")}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-            填充
-          </button>
-          {openPreset === field && (
-            <>
-              <div 
-                style={{ position: "fixed", inset: 0, zIndex: 10 }} 
-                onClick={() => setOpenPreset(null)} 
-              />
-              <div style={{
-                position: "absolute",
-                right: 0,
-                top: "28px",
-                width: "320px",
-                backgroundColor: "#1f2937",
-                border: "1px solid #374151",
-                borderRadius: "8px",
-                padding: "4px 0",
-                maxHeight: "240px",
-                overflowY: "auto",
-                zIndex: 20,
-                boxShadow: "0 10px 40px rgba(0,0,0,0.5)"
-              }}>
-                {presets[field].map((item, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => applyPreset(field, item)}
-                    style={{
-                      width: "100%",
-                      padding: "8px 12px",
-                      textAlign: "left",
-                      fontSize: "12px",
-                      color: "#d1d5db",
-                      background: "none",
-                      border: "none",
-                      borderBottom: idx < presets[field].length - 1 ? "1px solid #374151" : "none",
-                      cursor: "pointer",
-                      lineHeight: "1.5"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = "#374151";
-                      e.currentTarget.style.color = "white";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                      e.currentTarget.style.color = "#d1d5db";
-                    }}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
+  }) => {
+    const fieldValue = getFieldValue(field);
+    const fieldPresets = presets[field] || [];
+    
+    return (
+      <div style={{ position: "relative" }}>
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "center",
+          marginBottom: "6px"
+        }}>
+          <label style={labelStyle}>
+            {label}
+            {required && <span style={{ color: "#ef4444" }}>*</span>}
+          </label>
+          <div style={{ position: "relative" }}>
+            <button
+              type="button"
+              onClick={() => setOpenPreset(openPreset === field ? null : field)}
+              style={{
+                fontSize: "11px",
+                color: "#6b7280",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+                padding: "2px 6px",
+                borderRadius: "4px"
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#06b6d4")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b7280")}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              填充
+            </button>
+            {openPreset === field && (
+              <>
+                <div 
+                  style={{ position: "fixed", inset: 0, zIndex: 10 }} 
+                  onClick={() => setOpenPreset(null)} 
+                />
+                <div style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "28px",
+                  width: "320px",
+                  backgroundColor: "#1f2937",
+                  border: "1px solid #374151",
+                  borderRadius: "8px",
+                  padding: "4px 0",
+                  maxHeight: "240px",
+                  overflowY: "auto",
+                  zIndex: 20,
+                  boxShadow: "0 10px 40px rgba(0,0,0,0.5)"
+                }}>
+                  {fieldPresets.map((item, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => {
+                        setFieldValue(field, item);
+                        setOpenPreset(null);
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        textAlign: "left",
+                        fontSize: "12px",
+                        color: "#d1d5db",
+                        background: "none",
+                        border: "none",
+                        borderBottom: idx < fieldPresets.length - 1 ? "1px solid #374151" : "none",
+                        cursor: "pointer",
+                        lineHeight: "1.5"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = "#374151";
+                        e.currentTarget.style.color = "white";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color = "#d1d5db";
+                      }}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
+        <textarea
+          placeholder={placeholder}
+          value={fieldValue}
+          onChange={(e) => setFieldValue(field, e.target.value)}
+          style={inputStyle}
+          rows={rows}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = "#0891b2";
+            e.currentTarget.style.backgroundColor = "#1f2937";
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = "#2a2e3a";
+            e.currentTarget.style.backgroundColor = "#1a1d24";
+          }}
+        />
       </div>
-      <textarea
-        placeholder={placeholder}
-        value={form[field as keyof FormType]}
-        onChange={(e) => setForm({ ...form, [field as keyof FormType]: e.target.value })}
-        style={inputStyle}
-        rows={rows}
-        onFocus={(e) => {
-          e.currentTarget.style.borderColor = "#0891b2";
-          e.currentTarget.style.backgroundColor = "#1f2937";
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.borderColor = "#2a2e3a";
-          e.currentTarget.style.backgroundColor = "#1a1d24";
-        }}
-      />
-    </div>
-  );
+    );
+  };
 
   const SectionTitle = ({ children }: { children: React.ReactNode }) => (
     <div style={{ 

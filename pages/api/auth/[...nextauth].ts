@@ -29,6 +29,11 @@ export const authOptions = {
       },
     },
   },
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
+  },
 };
 
 export default NextAuth(authOptions);

@@ -3,7 +3,7 @@ import GitHubProvider from "next-auth/providers/github";
 
 // 硬编码配置
 const GITHUB_CLIENT_ID = "Ov23ligvp4DqbuzCURAD";
-const GITHUB_CLIENT_SECRET = "4df3e46ffed82acbff53447105d61d891d2d0e7a";
+const GITHUB_CLIENT_SECRET = "b9f95767fd0881923cf44ec0be9a6961be9f6d42";
 const NEXTAUTH_SECRET = "kX9mP2vQ7wL4nR8jY5tB1cF6hD3sA0eG";
 
 console.log("=== Auth Debug ===");

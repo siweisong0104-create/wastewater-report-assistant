@@ -312,8 +312,8 @@ export default function ReportForm() {
       </div>
       <textarea
         placeholder={placeholder}
-        value={form[field]}
-        onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+        value={form[field as keyof FormType]}
+        onChange={(e) => setForm({ ...form, [field as keyof FormType]: e.target.value })}
         style={inputStyle}
         rows={rows}
         onFocus={(e) => {

@@ -72,6 +72,85 @@ const presets: Record<string, string[]> = {
   ]
 };
 
+// 🎌 动漫主题测试数据 - 让周报变得有趣！
+const animeTestData = {
+  names: [
+    "漩涡鸣人", "宇智波佐助", "旗木卡卡西", "春野樱", "路飞", "索隆", 
+    "山治", "娜美", "炭治郎", "我妻善逸", "嘴平伊之助", "五条悟",
+    "虎杖悠仁", "伏黑惠", "艾伦·耶格尔", "利威尔兵长", "阿尼亚",
+    "约尔·福杰", "劳埃德·福杰", "琦玉", "杰诺斯", "坂田银时"
+  ],
+  
+  tasks: [
+    "像路飞一样充满干劲地完成了格栅清理工作，虽然中途肚子饿了三次，但最终还是坚持到了最后",
+    "参考索隆的三刀流理念，创新性地采用三重过滤系统对进水进行预处理，效果显著",
+    "模仿卡卡西的雷切，使用高压水枪快速清除了曝气池底部的顽固淤泥，效率提升200%",
+    "受到善逸雷之呼吸的启发，优化了鼓风机的运行模式，现在曝气系统运转得像闪电一样快",
+    "学习五条悟的无限咒术原理，设计了一套无限循环的水质监测系统，24小时不间断运行",
+    "借鉴阿尼亚的读心术，通过观察设备运行声音就能预判故障，成功避免了3次设备停机",
+    "效仿利威尔兵长的洁癖，对机房进行了360度无死角清洁，连一根头发丝都没放过",
+    "用鸣人的影分身之术理念，同时监控了5个工艺段的运行数据， multitasking技能点满",
+    "像埼玉一样一拳（键）解决了控制系统的小bug，虽然过程有点无聊但结果很完美",
+    "模仿银时的武士道精神，即使在暴雨天气也坚守岗位，按时完成了水质取样任务"
+  ],
+  
+  achievements: [
+    "本周COD去除率达到了95%，就像鸣人的仙人模式一样强大，让出水水质达到完美状态",
+    "成功处理了进水TN突增事件，像佐助开启须佐能乎一样精准控制，保护了生化系统",
+    "污泥脱水效率提升18%，比娜美的航海术还要精准地控制了药剂投加量",
+    "设备故障率降到历史最低0.5%，就像琦玉老师一样无敌，什么故障都打不倒我们",
+    "出水氨氮稳定在1mg/L以下，纯净得像阿尼亚的心灵感应一样清澈透明",
+    "完成了本季度所有维护任务，像调查兵团完成壁外调查一样凯旋归来，零伤亡！",
+    "节能降耗效果显著，就像龟派气功一样用最少的能量打出了最大的效果",
+    "团队协作效率MAX，像草帽海贼团一样默契配合，共同攻克了技术难题"
+  ],
+  
+  dataMetrics: [
+    "本周处理污水量：32000吨，相当于320个阿尼亚的饭量（她可是很能吃的）",
+    "进水COD 350mg/L → 出水COD 38mg/L，去除率89.1%，比雷之呼吸还要犀利",
+    "DO维持在3.5mg/L，就像呼吸一样自然稳定，连善逸都不会恐慌了",
+    "污泥龄15天，像千年杀一样精准控制（啊，是专业的工艺控制！）",
+    "设备完好率99.2%，只有2小时非计划停机，比银时的工作时间还短",
+    "药剂消耗减少12%，省下的钱可以买很多草莓蛋糕（阿尼亚最喜欢了）"
+  ],
+  
+  issues: [
+    "1#提升泵异响 → 像发现巨人一样迅速响应，更换了机械密封后恢复正常，堵住了漏洞",
+    "在线PH仪数据漂移 → 用写轮眼般的精准度完成了校准，现在数据比佐助还要稳定",
+    "污泥泵堵塞 → 像路飞开二档一样全力疏通，清理出大量杂物，管道畅通无阻",
+    "鼓风机温度偏高 → 借鉴炎之呼吸的散热原理，清理了冷却系统，温度恢复正常",
+    "加药泵流量不稳 → 像五条悟的无下限术式一样精准调节，流量控制完美达成",
+    "控制系统通讯中断 → 像程序员杰诺斯一样快速修复，系统重新上线运行"
+  ],
+  
+  collaboration: [
+    "配合环保检查就像参加中忍考试一样认真准备，台账资料齐全，一次通过",
+    "帮助新员工培训，像卡卡西老师带第七班一样耐心，现在他们都能独立操作了",
+    "与维修团队协作完成设备保养，配合得像索隆和山治（虽然平时吵架但关键时刻很靠谱）",
+    "参加安全生产会议，像英雄协会开会一样严肃认真地汇报了S级（重大）运营情况",
+    "协助实验室完成取样检测，配合默契得像虎杖和伏黑，数据准确率100%",
+    "和同事们一起加班处理突发情况，团队精神像鬼杀队一样坚韧不屈"
+  ],
+  
+  learning: [
+    "学习了新的脱氮工艺，像习得新忍术一样兴奋，已经迫不及待想在实践中试试了",
+    "研究了智能控制系统，感觉自己像杰诺斯一样变成了高科技战士（虽然还是人类）",
+    "了解了碳中和相关政策，立志要像保护同伴一样保护我们的环境",
+    "掌握了应急处理预案，就算遇到比九尾还可怕的突发状况也能从容应对",
+    "学习了数据分析方法，现在看运行数据就像看动漫剧情一样津津有味",
+    "参加了安全培训，记住了所有安全规范，比阿尼亚记住考试答案还要认真"
+  ],
+  
+  nextWeek: [
+    "计划对生化池进行全面体检，像给巨人做全身检查一样仔细，确保每个环节都正常",
+    "准备更换老化的曝气头，像更换忍具一样准备充分，新装备已经在路上了",
+    "开展应急演练，模拟各种突发情况，训练反应速度要像开启八门遁甲一样快",
+    "整理上半年的运行数据，像整理航海日志一样认真，为下半年制定更完美的计划",
+    "申请参加高级培训，提升自己的专业水平，目标是成为污水处理界的六道仙人",
+    "优化加药系统参数，追求极致的控制精度，像无限列车一样稳定向前奔跑"
+  ]
+};
+
 // 定义表单类型
 type FormType = {
   name: string;
@@ -160,6 +239,35 @@ export default function ReportForm() {
 
   const handleWeekChange = (week: number) => {
     updateDate(selectedYear, selectedMonth, week);
+  };
+
+  // 🎌 一键填充测试数据
+  const fillTestData = () => {
+    const randomItem = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+    
+    // 随机选择年月周
+    const year = new Date().getFullYear();
+    const month = Math.floor(Math.random() * 12) + 1;
+    const week = Math.floor(Math.random() * 4) + 1;
+    
+    setSelectedYear(year);
+    setSelectedMonth(month);
+    
+    setForm({
+      name: randomItem(animeTestData.names),
+      date: `${year}年${month}月第${week}周`,
+      tasks: randomItem(animeTestData.tasks),
+      achievements: randomItem(animeTestData.achievements),
+      issues: randomItem(animeTestData.issues),
+      dataMetrics: randomItem(animeTestData.dataMetrics),
+      collaboration: randomItem(animeTestData.collaboration),
+      learning: randomItem(animeTestData.learning),
+      nextWeek: randomItem(animeTestData.nextWeek),
+      tone: "professional"
+    });
+    
+    // 显示提示
+    alert("🎉 测试数据已填充！来自二次元世界的运营周报已准备好~\n\n点击「生成周报」即可查看AI扩写后的效果！");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -386,6 +494,57 @@ export default function ReportForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {/* 测试填充按钮 */}
+        <div style={{ 
+          marginBottom: "20px", 
+          padding: "12px 16px",
+          backgroundColor: "rgba(139, 92, 246, 0.1)",
+          border: "1px dashed #8b5cf6",
+          borderRadius: "8px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "10px"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span style={{ fontSize: "20px" }}>🎌</span>
+            <div>
+              <div style={{ fontSize: "13px", fontWeight: 500, color: "#e5e7eb" }}>
+                快速测试模式
+              </div>
+              <div style={{ fontSize: "11px", color: "#9ca3af" }}>
+                一键填充动漫主题测试数据，快速体验生成功能
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={fillTestData}
+            style={{
+              padding: "8px 16px",
+              fontSize: "12px",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              backgroundColor: "#8b5cf6",
+              color: "white",
+              fontWeight: 500,
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              transition: "background-color 0.2s"
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#7c3aed"}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#8b5cf6"}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            一键测试填充
+          </button>
+        </div>
+
         {/* 基本信息 */}
         <SectionTitle>基本信息</SectionTitle>
         <div style={{ 

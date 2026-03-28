@@ -9,6 +9,9 @@ const NEXTAUTH_SECRET = "kX9mP2vQ7wL4nR8jY5tB1cF6hD3sA0eG";
 console.log("=== Auth Debug ===");
 console.log("Client ID:", GITHUB_CLIENT_ID.substring(0, 10) + "...");
 
+// 强制使用生产环境 URL
+const PRODUCTION_URL = "https://sws-ww-report-2026.vercel.app";
+
 export const authOptions = {
   providers: [
     GitHubProvider({
@@ -31,7 +34,8 @@ export const authOptions = {
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      return baseUrl;
+      // 始终使用生产 URL
+      return PRODUCTION_URL;
     },
   },
 };

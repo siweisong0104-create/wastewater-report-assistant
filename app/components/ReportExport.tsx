@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Document, Paragraph, TextRun, Packer, AlignmentType } from "docx";
@@ -27,7 +27,8 @@ interface ReportExportProps {
 
 export default function ReportExport({ reportData, onClose }: ReportExportProps) {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   // 生成文件名
   const generateFileName = (extension: string) => {
@@ -36,17 +37,25 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
     return `${sanitizedName}_${sanitizedDate}.${extension}`;
   };
 
-  // 生成 PDF
-  const generatePDF = async (download: boolean = true) => {
+  // 生成 PDF 并下载
+  const generatePDF = async () => {
     setIsGenerating(true);
     try {
       const element = document.getElementById("report-preview-content");
-      if (!element) return;
+      if (!element) {
+        alert("预览内容不存在，请重试");
+        return;
+      }
+
+      // 等待图片加载
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
         logging: false,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -61,21 +70,49 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
       const imgX = (pdfWidth - imgWidth * ratio) / 2;
       let imgY = 10;
       
-      pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      // 计算是否需要分页
+      const scaledHeight = imgHeight * ratio;
+      let heightLeft = scaledHeight;
+      let position = imgY;
 
-      if (download) {
-        pdf.save(generateFileName("pdf"));
-      } else {
-        const pdfBlob = pdf.output("blob");
-        const url = URL.createObjectURL(pdfBlob);
-        setPreviewUrl(url);
+      // 添加第一页
+      pdf.addImage(imgData, "PNG", imgX, position, imgWidth * ratio, imgHeight * ratio);
+      heightLeft -= (pdfHeight - 20);
+
+      // 如果需要，添加更多页面
+      while (heightLeft > 0) {
+        position = heightLeft - scaledHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", imgX, position, imgWidth * ratio, imgHeight * ratio);
+        heightLeft -= (pdfHeight - 20);
       }
+
+      // 使用 Blob 方式下载，避免浏览器拦截
+      const pdfBlob = pdf.output("blob");
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      
+      // 创建临时链接并点击
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = generateFileName("pdf");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // 清理
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      
     } catch (error) {
       console.error("PDF 生成失败:", error);
-      alert("PDF 生成失败，请重试");
+      alert("PDF 生成失败，请重试。错误：" + (error as Error).message);
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  // 显示 PDF 预览
+  const showPDFPreview = () => {
+    setShowPreview(true);
   };
 
   // 生成 Word 文档
@@ -113,7 +150,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { after: 100 },
             }),
-            ...reportData.tasks.split("\n").map(line => 
+            ...reportData.tasks.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             new Paragraph({ children: [], spacing: { after: 200 } }),
@@ -123,7 +160,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { after: 100 },
             }),
-            ...reportData.achievements.split("\n").map(line => 
+            ...reportData.achievements.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 水质数据指标
@@ -133,7 +170,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { before: 400, after: 200 },
             }),
-            ...reportData.dataMetrics.split("\n").map(line => 
+            ...reportData.dataMetrics.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 问题与解决
@@ -143,7 +180,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { before: 400, after: 200 },
             }),
-            ...reportData.issues.split("\n").map(line => 
+            ...reportData.issues.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 团队协作
@@ -159,7 +196,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { after: 100 },
             }),
-            ...reportData.collaboration.split("\n").map(line => 
+            ...reportData.collaboration.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             new Paragraph({ children: [], spacing: { after: 200 } }),
@@ -169,7 +206,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { after: 100 },
             }),
-            ...reportData.learning.split("\n").map(line => 
+            ...reportData.learning.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 下周计划
@@ -179,7 +216,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               ],
               spacing: { before: 400, after: 200 },
             }),
-            ...reportData.nextWeek.split("\n").map(line => 
+            ...reportData.nextWeek.split("\n").filter(line => line.trim()).map(line => 
               new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
           ],
@@ -187,19 +224,30 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
       });
 
       const blob = await Packer.toBlob(doc);
-      saveAs(blob, generateFileName("docx"));
+      
+      // 使用 Blob 方式下载
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = generateFileName("docx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      
     } catch (error) {
       console.error("Word 生成失败:", error);
-      alert("Word 生成失败，请重试");
+      alert("Word 生成失败，请重试。错误：" + (error as Error).message);
     } finally {
       setIsGenerating(false);
     }
   };
 
-  // 格式化内容，将文本转换为 JSX
+  // 格式化内容
   const formatContent = (text: string) => {
-    if (!text) return null;
-    return text.split("\n").map((line, index) => (
+    if (!text) return <p style={{ color: "#999", fontStyle: "italic" }}>（未填写）</p>;
+    return text.split("\n").filter(line => line.trim()).map((line, index) => (
       <p key={index} style={{ marginBottom: "8px", lineHeight: "1.8" }}>
         {line}
       </p>
@@ -210,7 +258,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
     <div style={{
       position: "fixed",
       inset: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
+      backgroundColor: "rgba(0, 0, 0, 0.85)",
       zIndex: 100,
       display: "flex",
       alignItems: "center",
@@ -245,8 +293,16 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               border: "none",
               color: "#6b7280",
               cursor: "pointer",
-              fontSize: "20px",
+              fontSize: "24px",
+              width: "32px",
+              height: "32px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "6px",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1f2937")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
           >
             ×
           </button>
@@ -259,69 +315,59 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
           padding: "20px",
           backgroundColor: "#0a0c10",
         }}>
-          {previewUrl ? (
-            <iframe
-              src={previewUrl}
-              style={{
-                width: "100%",
-                height: "500px",
-                border: "none",
-                borderRadius: "8px",
-              }}
-            />
-          ) : (
-            <div
-              id="report-preview-content"
-              style={{
-                backgroundColor: "white",
-                color: "black",
-                padding: "40px",
-                borderRadius: "8px",
-                maxWidth: "800px",
-                margin: "0 auto",
-                fontSize: "14px",
-                lineHeight: "1.8",
-              }}
-            >
-              <h1 style={{ textAlign: "center", fontSize: "24px", marginBottom: "10px" }}>
-                运营周报
-              </h1>
-              <p style={{ textAlign: "center", marginBottom: "30px" }}>
-                {reportData.name} | {reportData.date}
-              </p>
+          <div
+            id="report-preview-content"
+            ref={previewRef}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              padding: "40px",
+              borderRadius: "8px",
+              maxWidth: "800px",
+              margin: "0 auto",
+              fontSize: "14px",
+              lineHeight: "1.8",
+              fontFamily: "'SimSun', '宋体', serif",
+            }}
+          >
+            <h1 style={{ textAlign: "center", fontSize: "24px", marginBottom: "10px", fontWeight: "bold" }}>
+              运营周报
+            </h1>
+            <p style={{ textAlign: "center", marginBottom: "30px", fontSize: "14px" }}>
+              {reportData.name} | {reportData.date}
+            </p>
 
-              <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px" }}>
-                一、本周运营工作
-              </h2>
-              <h3 style={{ fontSize: "15px", marginTop: "16px" }}>关键任务</h3>
-              {formatContent(reportData.tasks)}
-              <h3 style={{ fontSize: "15px", marginTop: "16px" }}>主要成果</h3>
-              {formatContent(reportData.achievements)}
+            <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px", fontWeight: "bold" }}>
+              一、本周运营工作
+            </h2>
+            <h3 style={{ fontSize: "15px", marginTop: "16px", fontWeight: "bold" }}>关键任务</h3>
+            {formatContent(reportData.tasks)}
+            <h3 style={{ fontSize: "15px", marginTop: "16px", fontWeight: "bold" }}>主要成果</h3>
+            {formatContent(reportData.achievements)}
 
-              <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px" }}>
-                二、水质数据指标
-              </h2>
-              {formatContent(reportData.dataMetrics)}
+            <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px", fontWeight: "bold" }}>
+              二、水质数据指标
+            </h2>
+            {formatContent(reportData.dataMetrics)}
 
-              <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px" }}>
-                三、问题与解决
-              </h2>
-              {formatContent(reportData.issues)}
+            <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px", fontWeight: "bold" }}>
+              三、问题与解决
+            </h2>
+            {formatContent(reportData.issues)}
 
-              <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px" }}>
-                四、团队协作
-              </h2>
-              <h3 style={{ fontSize: "15px", marginTop: "16px" }}>协作配合</h3>
-              {formatContent(reportData.collaboration)}
-              <h3 style={{ fontSize: "15px", marginTop: "16px" }}>学习成长</h3>
-              {formatContent(reportData.learning)}
+            <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px", fontWeight: "bold" }}>
+              四、团队协作
+            </h2>
+            <h3 style={{ fontSize: "15px", marginTop: "16px", fontWeight: "bold" }}>协作配合</h3>
+            {formatContent(reportData.collaboration)}
+            <h3 style={{ fontSize: "15px", marginTop: "16px", fontWeight: "bold" }}>学习成长</h3>
+            {formatContent(reportData.learning)}
 
-              <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px" }}>
-                五、下周计划
-              </h2>
-              {formatContent(reportData.nextWeek)}
-            </div>
-          )}
+            <h2 style={{ fontSize: "18px", borderBottom: "2px solid #333", paddingBottom: "8px", marginTop: "24px", fontWeight: "bold" }}>
+              五、下周计划
+            </h2>
+            {formatContent(reportData.nextWeek)}
+          </div>
         </div>
 
         {/* 底部按钮 */}
@@ -334,30 +380,7 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
           flexWrap: "wrap",
         }}>
           <button
-            onClick={() => generatePDF(false)}
-            disabled={isGenerating}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#374151",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: isGenerating ? "not-allowed" : "pointer",
-              opacity: isGenerating ? 0.6 : 1,
-              fontSize: "14px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-            预览 PDF
-          </button>
-          <button
-            onClick={() => generatePDF(true)}
+            onClick={generatePDF}
             disabled={isGenerating}
             style={{
               padding: "10px 20px",
@@ -371,12 +394,24 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               display: "flex",
               alignItems: "center",
               gap: "8px",
+              fontWeight: "500",
             }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            下载 PDF
+            {isGenerating ? (
+              <>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ animation: "spin 1s linear infinite" }}>
+                  <circle cx="12" cy="12" r="10" strokeDasharray="60" strokeDashoffset="20" />
+                </svg>
+                生成中...
+              </>
+            ) : (
+              <>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                下载 PDF
+              </>
+            )}
           </button>
           <button
             onClick={generateWord}
@@ -393,15 +428,33 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               display: "flex",
               alignItems: "center",
               gap: "8px",
+              fontWeight: "500",
             }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            下载 Word
+            {isGenerating ? (
+              <>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ animation: "spin 1s linear infinite" }}>
+                  <circle cx="12" cy="12" r="10" strokeDasharray="60" strokeDashoffset="20" />
+                </svg>
+                生成中...
+              </>
+            ) : (
+              <>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                下载 Word
+              </>
+            )}
           </button>
         </div>
       </div>
+      <style jsx>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

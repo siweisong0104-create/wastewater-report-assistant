@@ -36,14 +36,14 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
     return null;
   };
 
-  // 解析 Markdown 为 HTML - 优化排版
+  // 解析 Markdown 为 HTML - 紧凑排版
   const parseMarkdownToHTML = (content: string) => {
     let html = content
-      .replace(/^# (.*$)/gim, '<h1 style="font-size:22px;text-align:center;margin:16px 0 20px 0;font-weight:bold;color:#000;">$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2 style="font-size:16px;margin:24px 0 12px 0;font-weight:bold;color:#000;border-bottom:2px solid #333;padding-bottom:4px;">$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3 style="font-size:14px;margin:16px 0 8px 0;font-weight:bold;color:#000;">$1</h3>')
+      .replace(/^# (.*$)/gim, '<h1 style="font-size:20px;text-align:center;margin:12px 0 16px 0;font-weight:bold;color:#000;">$1</h1>')
+      .replace(/^## (.*$)/gim, '<h2 style="font-size:15px;margin:16px 0 8px 0;font-weight:bold;color:#000;">$1</h2>')
+      .replace(/^### (.*$)/gim, '<h3 style="font-size:13px;margin:12px 0 6px 0;font-weight:bold;color:#000;">$1</h3>')
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#000;">$1</strong>')
-      .replace(/\n/g, '<br style="line-height:1.8;"/>');
+      .replace(/\n/g, '<br style="line-height:1.5;"/>');
     return html;
   };
 
@@ -276,12 +276,12 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
             style={{
               width: "210mm",
               minHeight: "297mm",
-              padding: "20mm",
+              padding: "15mm",
               backgroundColor: "white",
               boxSizing: "border-box",
               fontFamily: "'SimSun', 'Noto Sans SC', 'Microsoft YaHei', sans-serif",
-              fontSize: "14pt",
-              lineHeight: "1.8",
+              fontSize: "12pt",
+              lineHeight: "1.5",
               color: "#000",
               boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
             }}
@@ -289,20 +289,20 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
               __html: aiContent 
                 ? parseMarkdownToHTML(aiContent)
                 : `
-                  <h1 style="font-size:22px;text-align:center;margin:16px 0 20px 0;font-weight:bold;color:#000;">运营周报</h1>
-                  <p style="text-align:center;margin:8px 0;font-size:14pt;color:#000;">${reportData.name} | ${reportData.date}</p>
-                  <h2 style="font-size:16px;margin:24px 0 12px 0;font-weight:bold;color:#000;border-bottom:2px solid #333;padding-bottom:4px;">一、本周运营工作</h2>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;"><strong>关键任务：</strong>${reportData.tasks || "（未填写）"}</p>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;"><strong>主要成果：</strong>${reportData.achievements || "（未填写）"}</p>
-                  <h2 style="font-size:16px;margin:24px 0 12px 0;font-weight:bold;color:#000;border-bottom:2px solid #333;padding-bottom:4px;">二、水质数据指标</h2>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;">${reportData.dataMetrics || "（未填写）"}</p>
-                  <h2 style="font-size:16px;margin:24px 0 12px 0;font-weight:bold;color:#000;border-bottom:2px solid #333;padding-bottom:4px;">三、问题与解决</h2>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;">${reportData.issues || "（未填写）"}</p>
-                  <h2 style="font-size:16px;margin:24px 0 12px 0;font-weight:bold;color:#000;border-bottom:2px solid #333;padding-bottom:4px;">四、团队协作</h2>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;"><strong>协作配合：</strong>${reportData.collaboration || "（未填写）"}</p>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;"><strong>学习成长：</strong>${reportData.learning || "（未填写）"}</p>
-                  <h2 style="font-size:16px;margin:24px 0 12px 0;font-weight:bold;color:#000;border-bottom:2px solid #333;padding-bottom:4px;">五、下周计划</h2>
-                  <p style="margin:12px 0;line-height:1.8;color:#000;">${reportData.nextWeek || "（未填写）"}</p>
+                  <h1 style="font-size:20px;text-align:center;margin:12px 0 16px 0;font-weight:bold;color:#000;">运营周报</h1>
+                  <p style="text-align:center;margin:6px 0;font-size:12pt;color:#000;">${reportData.name} | ${reportData.date}</p>
+                  <h2 style="font-size:15px;margin:16px 0 8px 0;font-weight:bold;color:#000;">一、本周运营工作</h2>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;"><strong>关键任务：</strong>${reportData.tasks || "（未填写）"}</p>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;"><strong>主要成果：</strong>${reportData.achievements || "（未填写）"}</p>
+                  <h2 style="font-size:15px;margin:16px 0 8px 0;font-weight:bold;color:#000;">二、水质数据指标</h2>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;">${reportData.dataMetrics || "（未填写）"}</p>
+                  <h2 style="font-size:15px;margin:16px 0 8px 0;font-weight:bold;color:#000;">三、问题与解决</h2>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;">${reportData.issues || "（未填写）"}</p>
+                  <h2 style="font-size:15px;margin:16px 0 8px 0;font-weight:bold;color:#000;">四、团队协作</h2>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;"><strong>协作配合：</strong>${reportData.collaboration || "（未填写）"}</p>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;"><strong>学习成长：</strong>${reportData.learning || "（未填写）"}</p>
+                  <h2 style="font-size:15px;margin:16px 0 8px 0;font-weight:bold;color:#000;">五、下周计划</h2>
+                  <p style="margin:8px 0;line-height:1.5;color:#000;">${reportData.nextWeek || "（未填写）"}</p>
                 `
             }}
           />

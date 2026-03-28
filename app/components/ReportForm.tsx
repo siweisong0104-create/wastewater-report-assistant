@@ -72,82 +72,69 @@ const presets: Record<string, string[]> = {
   ]
 };
 
-// 🎌 动漫主题测试数据 - 让周报变得有趣！
-const animeTestData = {
+// 🎯 趣味测试数据 - 恰到好处的幽默，自然融入专业内容
+const testData = {
   names: [
-    "漩涡鸣人", "宇智波佐助", "旗木卡卡西", "春野樱", "路飞", "索隆", 
-    "山治", "娜美", "炭治郎", "我妻善逸", "嘴平伊之助", "五条悟",
-    "虎杖悠仁", "伏黑惠", "艾伦·耶格尔", "利威尔兵长", "阿尼亚",
-    "约尔·福杰", "劳埃德·福杰", "琦玉", "杰诺斯", "坂田银时"
+    "王建国", "李大炮", "张铁柱", "赵富贵", "刘二狗", "孙大壮",
+    "周小波", "吴师傅", "郑大明白", "马大哈", "陈老实", "杨勤奋"
   ],
   
   tasks: [
-    "像路飞一样充满干劲地完成了格栅清理工作，虽然中途肚子饿了三次，但最终还是坚持到了最后",
-    "参考索隆的三刀流理念，创新性地采用三重过滤系统对进水进行预处理，效果显著",
-    "模仿卡卡西的雷切，使用高压水枪快速清除了曝气池底部的顽固淤泥，效率提升200%",
-    "受到善逸雷之呼吸的启发，优化了鼓风机的运行模式，现在曝气系统运转得像闪电一样快",
-    "学习五条悟的无限咒术原理，设计了一套无限循环的水质监测系统，24小时不间断运行",
-    "借鉴阿尼亚的读心术，通过观察设备运行声音就能预判故障，成功避免了3次设备停机",
-    "效仿利威尔兵长的洁癖，对机房进行了360度无死角清洁，连一根头发丝都没放过",
-    "用鸣人的影分身之术理念，同时监控了5个工艺段的运行数据， multitasking技能点满",
-    "像埼玉一样一拳（键）解决了控制系统的小bug，虽然过程有点无聊但结果很完美",
-    "模仿银时的武士道精神，即使在暴雨天气也坚守岗位，按时完成了水质取样任务"
+    "本周对格栅机进行了例行维护，清理出的杂物中居然发现了一只完好的手机壳，看来我们的格栅过滤效果确实不错",
+    "完成了曝气系统的全面检修，更换了15个老化曝气头。拆下来的旧曝气头已经服役三年，算是功成身退了",
+    "优化了加药系统的投加曲线，现在药剂投加比我的减肥计划还要精准——该多的时候绝不少，该少的时候绝不多",
+    "处理了进水突发的色度异常事件，通过调整工艺参数成功化解，这次应变速度比外卖小哥找地址还快",
+    "对污泥脱水机进行了深度保养，清理出来的积泥足足装了两桶，看来这段时间的污泥产量相当可观",
+    "完成了在线监测仪的季度校准，所有仪表数据偏差都在允许范围内，比我的血压还要稳定"
   ],
   
   achievements: [
-    "本周COD去除率达到了95%，就像鸣人的仙人模式一样强大，让出水水质达到完美状态",
-    "成功处理了进水TN突增事件，像佐助开启须佐能乎一样精准控制，保护了生化系统",
-    "污泥脱水效率提升18%，比娜美的航海术还要精准地控制了药剂投加量",
-    "设备故障率降到历史最低0.5%，就像琦玉老师一样无敌，什么故障都打不倒我们",
-    "出水氨氮稳定在1mg/L以下，纯净得像阿尼亚的心灵感应一样清澈透明",
-    "完成了本季度所有维护任务，像调查兵团完成壁外调查一样凯旋归来，零伤亡！",
-    "节能降耗效果显著，就像龟派气功一样用最少的能量打出了最大的效果",
-    "团队协作效率MAX，像草帽海贼团一样默契配合，共同攻克了技术难题"
+    "本周出水COD稳定在42mg/L以下，氨氮和总磷全部达标。水质这么好，连化验室的锦鲤都游得更欢了",
+    "设备完好率99.1%，故障停机时间仅1.5小时。这稳定性比我坚持早睡早起还要可靠",
+    "药剂单耗环比下降8%，在不牺牲处理效果的前提下实现了降本增效，可谓是既要马儿跑又要马儿少吃草",
+    "成功避免了两次潜在的工艺异常，提前预判、及时处理，把问题扼杀在萌芽状态，这防患于未然的能力堪比天气预报",
+    "本周处理量达到31000吨，创下本月新高。机器运转顺畅，出水清澈见底，颇有那种'问渠那得清如许'的意境",
+    "通过优化排泥周期，污泥沉降性能明显改善，SV30指数稳定在20%左右，泥水分离效果堪称教科书级别"
   ],
   
   dataMetrics: [
-    "本周处理污水量：32000吨，相当于320个阿尼亚的饭量（她可是很能吃的）",
-    "进水COD 350mg/L → 出水COD 38mg/L，去除率89.1%，比雷之呼吸还要犀利",
-    "DO维持在3.5mg/L，就像呼吸一样自然稳定，连善逸都不会恐慌了",
-    "污泥龄15天，像千年杀一样精准控制（啊，是专业的工艺控制！）",
-    "设备完好率99.2%，只有2小时非计划停机，比银时的工作时间还短",
-    "药剂消耗减少12%，省下的钱可以买很多草莓蛋糕（阿尼亚最喜欢了）"
+    "本周累计处理水量：31,500吨，日均4500吨。按照每人每天用水150升计算，相当于服务了21万人",
+    "进水COD 320mg/L，出水42mg/L，去除率86.9%。这组数据如果放在考试成绩里，妥妥的A+",
+    "氨氮去除率91.5%，总磷去除率88.2%，均优于设计标准。各项指标就像交响乐团一样和谐统一",
+    "曝气池DO均值3.2mg/L，污泥龄12天，F/M比0.12，工艺参数控制得恰到好处，不多不少",
+    "设备综合效率(OEE) 94.5%，其中可用率99.1%，性能效率95.3%，质量合格率100%，三要素齐头并进",
+    "吨水电耗0.28kWh，相比上月下降5%，节能效果显著。省下的电费够全站喝一个月下午茶了"
   ],
   
   issues: [
-    "1#提升泵异响 → 像发现巨人一样迅速响应，更换了机械密封后恢复正常，堵住了漏洞",
-    "在线PH仪数据漂移 → 用写轮眼般的精准度完成了校准，现在数据比佐助还要稳定",
-    "污泥泵堵塞 → 像路飞开二档一样全力疏通，清理出大量杂物，管道畅通无阻",
-    "鼓风机温度偏高 → 借鉴炎之呼吸的散热原理，清理了冷却系统，温度恢复正常",
-    "加药泵流量不稳 → 像五条悟的无下限术式一样精准调节，流量控制完美达成",
-    "控制系统通讯中断 → 像程序员杰诺斯一样快速修复，系统重新上线运行"
+    "2#鼓风机出现异常振动，经检查发现是轴承磨损所致。及时更换后恢复正常，这轴承也算是鞠躬尽瘁了",
+    "进水PH值出现过两次短时波动，通过加大中和剂投加量及时缓冲，没让生化系统受到惊吓",
+    "污泥泵出现间歇性堵塞，拆开一看原来是几片树叶在作怪。格栅以后得更加留意这些'漏网之鱼'",
+    "加药计量泵隔膜老化导致投加量不稳，更换新泵头后如丝般顺滑，精准度堪比实验室滴定管",
+    "中控室空调制冷效果下降，在热浪来袭之前及时维修完毕，保住了我们的工作环境这块'净土'"
   ],
   
   collaboration: [
-    "配合环保检查就像参加中忍考试一样认真准备，台账资料齐全，一次通过",
-    "帮助新员工培训，像卡卡西老师带第七班一样耐心，现在他们都能独立操作了",
-    "与维修团队协作完成设备保养，配合得像索隆和山治（虽然平时吵架但关键时刻很靠谱）",
-    "参加安全生产会议，像英雄协会开会一样严肃认真地汇报了S级（重大）运营情况",
-    "协助实验室完成取样检测，配合默契得像虎杖和伏黑，数据准确率100%",
-    "和同事们一起加班处理突发情况，团队精神像鬼杀队一样坚韧不屈"
+    "配合第三方检测机构完成季度取样，准备充分、配合默契，顺利通过了这次'突击考试'",
+    "协助维修班组完成年度设备大修，分工明确、配合得当，提前半天完成了既定任务",
+    "对两位新来的实习生进行了系统培训，从工艺流程到操作规程倾囊相授，希望他们早日独当一面",
+    "参加了公司组织的安全生产会议，认真学习了最新的事故案例，安全生产这根弦时刻不能松",
+    "与化验室密切配合，及时沟通水质异常情况，形成了良好的信息反馈机制，堪称跨部门协作的典范"
   ],
   
   learning: [
-    "学习了新的脱氮工艺，像习得新忍术一样兴奋，已经迫不及待想在实践中试试了",
-    "研究了智能控制系统，感觉自己像杰诺斯一样变成了高科技战士（虽然还是人类）",
-    "了解了碳中和相关政策，立志要像保护同伴一样保护我们的环境",
-    "掌握了应急处理预案，就算遇到比九尾还可怕的突发状况也能从容应对",
-    "学习了数据分析方法，现在看运行数据就像看动漫剧情一样津津有味",
-    "参加了安全培训，记住了所有安全规范，比阿尼亚记住考试答案还要认真"
+    "研读了《城镇污水处理厂运行维护及安全技术规程》2024版的新增条款，更新了自己的知识储备",
+    "学习了污泥厌氧消化工艺的原理与应用，虽然本站暂未采用，但多了解总是有益无害",
+    "参加了在线监测设备厂家组织的技术培训，掌握了新款仪表的维护要点，技能树上又长出了一片新叶",
+    "了解了碳中和背景下的污水处理行业新趋势，深感肩上的责任重大，也更加坚定了做好本职工作的决心"
   ],
   
   nextWeek: [
-    "计划对生化池进行全面体检，像给巨人做全身检查一样仔细，确保每个环节都正常",
-    "准备更换老化的曝气头，像更换忍具一样准备充分，新装备已经在路上了",
-    "开展应急演练，模拟各种突发情况，训练反应速度要像开启八门遁甲一样快",
-    "整理上半年的运行数据，像整理航海日志一样认真，为下半年制定更完美的计划",
-    "申请参加高级培训，提升自己的专业水平，目标是成为污水处理界的六道仙人",
-    "优化加药系统参数，追求极致的控制精度，像无限列车一样稳定向前奔跑"
+    "计划对生化池进行全面巡检，重点观察曝气均匀性和污泥性状，确保工艺运行状态良好",
+    "准备更换3#沉淀池的刮泥机链条，新链条已到货，就等时机成熟进行更换",
+    "开展一次针对性的应急演练，模拟进水COD突增场景，检验大家的实战应变能力",
+    "整理上半年的运行数据，为下半年制定更科学的运行策略提供数据支撑",
+    "申请参加下月举办的污水处理技术交流会，向同行学习先进经验，开阔眼界"
   ]
 };
 
@@ -241,7 +228,7 @@ export default function ReportForm() {
     updateDate(selectedYear, selectedMonth, week);
   };
 
-  // 🎌 一键填充测试数据
+  // 一键填充测试数据
   const fillTestData = () => {
     const randomItem = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
     
@@ -254,21 +241,27 @@ export default function ReportForm() {
     setSelectedMonth(month);
     
     setForm({
-      name: randomItem(animeTestData.names),
+      name: randomItem(testData.names),
       date: `${year}年${month}月第${week}周`,
-      tasks: randomItem(animeTestData.tasks),
-      achievements: randomItem(animeTestData.achievements),
-      issues: randomItem(animeTestData.issues),
-      dataMetrics: randomItem(animeTestData.dataMetrics),
-      collaboration: randomItem(animeTestData.collaboration),
-      learning: randomItem(animeTestData.learning),
-      nextWeek: randomItem(animeTestData.nextWeek),
+      tasks: randomItem(testData.tasks),
+      achievements: randomItem(testData.achievements),
+      issues: randomItem(testData.issues),
+      dataMetrics: randomItem(testData.dataMetrics),
+      collaboration: randomItem(testData.collaboration),
+      learning: randomItem(testData.learning),
+      nextWeek: randomItem(testData.nextWeek),
       tone: "professional"
     });
-    
-    // 显示提示
-    alert("🎉 测试数据已填充！来自二次元世界的运营周报已准备好~\n\n点击「生成周报」即可查看AI扩写后的效果！");
   };
+
+  // 监听测试填充事件
+  useEffect(() => {
+    const handleFillTestData = () => {
+      fillTestData();
+    };
+    window.addEventListener('fillTestData' as any, handleFillTestData);
+    return () => window.removeEventListener('fillTestData' as any, handleFillTestData);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -494,57 +487,6 @@ export default function ReportForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        {/* 测试填充按钮 */}
-        <div style={{ 
-          marginBottom: "20px", 
-          padding: "12px 16px",
-          backgroundColor: "rgba(139, 92, 246, 0.1)",
-          border: "1px dashed #8b5cf6",
-          borderRadius: "8px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "10px"
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "20px" }}>🎌</span>
-            <div>
-              <div style={{ fontSize: "13px", fontWeight: 500, color: "#e5e7eb" }}>
-                快速测试模式
-              </div>
-              <div style={{ fontSize: "11px", color: "#9ca3af" }}>
-                一键填充动漫主题测试数据，快速体验生成功能
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={fillTestData}
-            style={{
-              padding: "8px 16px",
-              fontSize: "12px",
-              borderRadius: "6px",
-              border: "none",
-              cursor: "pointer",
-              backgroundColor: "#8b5cf6",
-              color: "white",
-              fontWeight: 500,
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              transition: "background-color 0.2s"
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#7c3aed"}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#8b5cf6"}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            一键测试填充
-          </button>
-        </div>
-
         {/* 基本信息 */}
         <SectionTitle>基本信息</SectionTitle>
         <div style={{ 

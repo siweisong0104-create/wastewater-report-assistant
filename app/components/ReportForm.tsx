@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import ReportExport from "./ReportExport";
 
 // 生成年份选项（前后5年，共10年）
 const generateYearOptions = () => {
@@ -117,6 +118,7 @@ export default function ReportForm() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [openPreset, setOpenPreset] = useState<string | null>(null);
+  const [showExport, setShowExport] = useState(false);
 
   const applyPreset = (field: keyof FormType, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -662,25 +664,49 @@ export default function ReportForm() {
             alignItems: "center",
             padding: "12px 16px",
             backgroundColor: "#1f2937",
-            borderBottom: "1px solid #2a2e3a"
+            borderBottom: "1px solid #2a2e3a",
+            flexWrap: "wrap",
+            gap: "8px"
           }}>
             <span style={{ fontSize: "13px", fontWeight: 500, color: "#e5e7eb" }}>
               生成结果
             </span>
-            <button
-              onClick={handleCopy}
-              style={{
-                padding: "4px 12px",
-                fontSize: "12px",
-                borderRadius: "4px",
-                border: "none",
-                cursor: "pointer",
-                backgroundColor: copied ? "rgba(34, 197, 94, 0.2)" : "#374151",
-                color: copied ? "#22c55e" : "#d1d5db"
-              }}
-            >
-              {copied ? "已复制" : "复制"}
-            </button>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                onClick={() => setShowExport(true)}
+                style={{
+                  padding: "6px 14px",
+                  fontSize: "12px",
+                  borderRadius: "4px",
+                  border: "none",
+                  cursor: "pointer",
+                  backgroundColor: "#06b6d4",
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px"
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                导出文档
+              </button>
+              <button
+                onClick={handleCopy}
+                style={{
+                  padding: "6px 14px",
+                  fontSize: "12px",
+                  borderRadius: "4px",
+                  border: "none",
+                  cursor: "pointer",
+                  backgroundColor: copied ? "rgba(34, 197, 94, 0.2)" : "#374151",
+                  color: copied ? "#22c55e" : "#d1d5db"
+                }}
+              >
+                {copied ? "已复制" : "复制"}
+              </button>
+            </div>
           </div>
           <div style={{ padding: "16px" }}>
             <div style={{
@@ -695,6 +721,26 @@ export default function ReportForm() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* 导出弹窗 */}
+      {showExport && (
+        <ReportExport
+          reportData={{
+            name: form.name,
+            date: form.date,
+            tasks: form.tasks,
+            achievements: form.achievements,
+            dataMetrics: form.dataMetrics,
+            issues: form.issues,
+            collaboration: form.collaboration,
+            learning: form.learning,
+            nextWeek: form.nextWeek,
+            tone: form.tone,
+            content: report
+          }}
+          onClose={() => setShowExport(false)}
+        />
       )}
     </div>
   );

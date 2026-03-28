@@ -3,7 +3,7 @@
 import { useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { Document, Paragraph, TextRun, Packer, HeadingLevel, AlignmentType } from "docx";
+import { Document, Paragraph, TextRun, Packer, AlignmentType } from "docx";
 import { saveAs } from "file-saver";
 
 interface ReportData {
@@ -87,88 +87,100 @@ export default function ReportExport({ reportData, onClose }: ReportExportProps)
           properties: {},
           children: [
             new Paragraph({
-              text: `运营周报 - ${reportData.name}`,
-              heading: HeadingLevel.HEADING_1,
+              children: [
+                new TextRun({ text: `运营周报 - ${reportData.name}`, bold: true, size: 32 }),
+              ],
               alignment: AlignmentType.CENTER,
               spacing: { after: 400 },
             }),
             new Paragraph({
-              text: `日期：${reportData.date}`,
+              children: [
+                new TextRun({ text: `日期：${reportData.date}`, size: 24 }),
+              ],
               alignment: AlignmentType.CENTER,
               spacing: { after: 600 },
             }),
             // 本周运营工作
             new Paragraph({
-              text: "一、本周运营工作",
-              heading: HeadingLevel.HEADING_2,
+              children: [
+                new TextRun({ text: "一、本周运营工作", bold: true, size: 28 }),
+              ],
               spacing: { before: 200, after: 200 },
             }),
             new Paragraph({
-              text: "关键任务：",
-              bold: true,
+              children: [
+                new TextRun({ text: "关键任务：", bold: true }),
+              ],
               spacing: { after: 100 },
             }),
             ...reportData.tasks.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
-            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
-              text: "主要成果：",
-              bold: true,
+              children: [
+                new TextRun({ text: "主要成果：", bold: true }),
+              ],
               spacing: { after: 100 },
             }),
             ...reportData.achievements.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 水质数据指标
             new Paragraph({
-              text: "二、水质数据指标",
-              heading: HeadingLevel.HEADING_2,
+              children: [
+                new TextRun({ text: "二、水质数据指标", bold: true, size: 28 }),
+              ],
               spacing: { before: 400, after: 200 },
             }),
             ...reportData.dataMetrics.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 问题与解决
             new Paragraph({
-              text: "三、问题与解决",
-              heading: HeadingLevel.HEADING_2,
+              children: [
+                new TextRun({ text: "三、问题与解决", bold: true, size: 28 }),
+              ],
               spacing: { before: 400, after: 200 },
             }),
             ...reportData.issues.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 团队协作
             new Paragraph({
-              text: "四、团队协作",
-              heading: HeadingLevel.HEADING_2,
+              children: [
+                new TextRun({ text: "四、团队协作", bold: true, size: 28 }),
+              ],
               spacing: { before: 400, after: 200 },
             }),
             new Paragraph({
-              text: "协作配合：",
-              bold: true,
+              children: [
+                new TextRun({ text: "协作配合：", bold: true }),
+              ],
               spacing: { after: 100 },
             }),
             ...reportData.collaboration.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
-            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
-              text: "学习成长：",
-              bold: true,
+              children: [
+                new TextRun({ text: "学习成长：", bold: true }),
+              ],
               spacing: { after: 100 },
             }),
             ...reportData.learning.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
             // 下周计划
             new Paragraph({
-              text: "五、下周计划",
-              heading: HeadingLevel.HEADING_2,
+              children: [
+                new TextRun({ text: "五、下周计划", bold: true, size: 28 }),
+              ],
               spacing: { before: 400, after: 200 },
             }),
             ...reportData.nextWeek.split("\n").map(line => 
-              new Paragraph({ text: line, spacing: { after: 100 } })
+              new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
             ),
           ],
         }],

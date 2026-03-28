@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 // 生成年份选项（前后5年，共10年）
@@ -87,6 +87,17 @@ type FormType = {
 
 export default function ReportForm() {
   const { data: session } = useSession();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const [form, setForm] = useState<FormType>({
     name: "",
     date: "",
@@ -377,7 +388,7 @@ export default function ReportForm() {
         <SectionTitle>基本信息</SectionTitle>
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "1fr 1fr", 
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
           gap: "12px",
           marginBottom: "16px"
         }}>
@@ -481,7 +492,7 @@ export default function ReportForm() {
         <SectionTitle>本周运营工作</SectionTitle>
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "1fr 1fr", 
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
           gap: "12px",
           marginBottom: "12px"
         }}>
@@ -502,7 +513,7 @@ export default function ReportForm() {
         </div>
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "1fr 1fr", 
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
           gap: "12px",
           marginBottom: "16px"
         }}>
@@ -522,7 +533,7 @@ export default function ReportForm() {
         <SectionTitle>团队协作</SectionTitle>
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "1fr 1fr", 
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
           gap: "12px",
           marginBottom: "16px"
         }}>

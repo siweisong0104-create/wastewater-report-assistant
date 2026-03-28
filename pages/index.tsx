@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import ReportForm from "../app/components/ReportForm";
 import BatchReportGenerator from "../app/components/BatchReportGenerator";
@@ -7,6 +7,16 @@ import ReportHistory from "../app/components/ReportHistory";
 export default function Home() {
   const { data: session, status } = useSession();
   const [mode, setMode] = useState<"single" | "batch">("single");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   if (status === "loading") {
     return (
@@ -257,7 +267,7 @@ export default function Home() {
 
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: mode === "single" ? "1fr 280px" : "1fr", 
+          gridTemplateColumns: isMobile ? "1fr" : (mode === "single" ? "1fr 280px" : "1fr"), 
           gap: "16px" 
         }}>
           {/* 左侧：表单 */}
